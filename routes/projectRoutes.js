@@ -44,6 +44,17 @@ router
         res.status(200).json({ project });
     })
     .put(async ({ body: changes, params: { id } }, res) => {
+        const { description, name } = changes;
+
+        if (!name || !description) {
+            return res
+                .status(400)
+                .json({
+                    message:
+                        "You didn't provide the necessary details to make changes to this project",
+                });
+        }
+
         try {
             const updated = await update(id, changes);
             res.status(200).json({
