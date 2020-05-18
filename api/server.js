@@ -5,6 +5,9 @@ const { router: projectRouter } = require('../routes/projectRoutes.js');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('api/projects', projectRouter);
+app.get('/', (req, res) => {
+    res.status(200).json({ message: 'ok' });
+});
+app.use('/api/projects', projectRouter);
 
 module.exports = { app };
