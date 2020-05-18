@@ -6,13 +6,7 @@ const {
     validateProjectID,
 } = require('../middleware/project');
 
-const {
-    get,
-    insert,
-    update,
-    remove,
-    getProjectActions,
-} = require('../data/helpers/projectModel');
+const { get, insert, update, remove } = require('../data/helpers/projectModel');
 
 // base route
 router
@@ -42,16 +36,15 @@ router
         }
     });
 
+router.all('/:id', validateProjectID);
 // base route/:id params for read/update/delete
 router
-    .use(validateProjectID)
     .route('/:id')
     .get(({ project }, res) => {
         res.status(200).json({ project });
     })
-    .put(async ({ project }, res) => {
+    .put(async ({ body: changes, params: { id } }, res) => {
         try {
-            const { id, changes } = project;
             const updated = await update(id, changes);
             res.status(200).json({
                 project: updated,
