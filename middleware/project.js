@@ -1,4 +1,4 @@
-const { get } = require('../data/helpers/projectModel');
+const { findById } = require('../data/helpers/projectModel');
 
 const validateBodyForProject = (req, res, next) => {
     // check for name description and completed
@@ -13,8 +13,9 @@ const validateBodyForProject = (req, res, next) => {
     next();
 };
 
-const validateProjectID = async ({ params: { id } }, res, next) => {
-    const project = await get(id);
+const validateProjectID = async (req, res, next) => {
+    const { id } = req.params;
+    const project = await findById(id);
 
     if (!project) {
         return res.status(404).json({
