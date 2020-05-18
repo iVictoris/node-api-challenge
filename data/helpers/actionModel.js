@@ -10,7 +10,7 @@ module.exports = {
 };
 
 function findById(id) {
-    return db('actions').where({ id }).first();
+    return db('actions').where('id', id).first();
 }
 
 function get(id) {
